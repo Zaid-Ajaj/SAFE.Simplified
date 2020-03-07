@@ -8,6 +8,8 @@ A simplified alternative template to the full-fledged official [SAFE Template](h
  - [Feliz](https://github.com/Zaid-Ajaj/Feliz) as the React DSL on the front-end
  - [Expecto](https://github.com/haf/expecto) for server unit-tests project
  - [Fable.Mocha](https://github.com/Zaid-Ajaj/Fable.Mocha) for client unit-tests project (runs in Node.js when on CI servers or live during development)
+ - [Serilog](https://serilog.net) for logging server-side stuff
+ - Simple application variable configuration (see below sections)
 
 ### Using This Template
 
@@ -27,7 +29,7 @@ As shown here below
 
 ![img](docs/running-the-application.gif)
 
-The server web application starts listening for requests at `http://localhost:5000` where as the client application will be hosted at `http://localhost:8080` during developments. All web requests made from the front-end are automatically proxies to the backend at `http://localhost:5000`. In production, there will no proxy because the front-end application will be served from the backend itself.
+The server web application starts listening for requests at `http://localhost:5000` where as the client application will be hosted at `http://localhost:8080` during developments. All web requests made from the front-end are automatically proxied to the backend at `http://localhost:5000`. In production, there will no proxy because the front-end application will be served from the backend itself.
 
 > That is unless you are hosting the backend serverless and would like to host the front-end project separately.
 
@@ -36,7 +38,7 @@ The server web application starts listening for requests at `http://localhost:50
 You can easily run the build targets as follows:
  - `./build.sh {Target}` on Linux/Mac
  - `build {Target}` on Windows
- - Hitting F# where `Build.fsproj` is the startup project
+ - Hitting F5 where `Build.fsproj` is the startup project
 
 There are a bunch of built-in targets that you can run:
  - `Server` builds the server in Release mode
@@ -46,8 +48,20 @@ There are a bunch of built-in targets that you can run:
  - `ClientTests` runs the client unit-tests project by compiling the project first and running via Mocha in node.js
  - `LiveClientTests` runs a standalone web application at `http://localhost:8085` that shows test results from the unit tests and recompiles whenever the tests change.
 
+### Configuring application variables: server
+
+The server web application picks up the environment variables by default from the host machine and makes them available from an injected `IConfiguration` interface. However, it adds a nice feature on top which allows to add more application-specific local variables by adding a JSON file called `config.json` inside your `server` directory:
+```json
+{
+  "DATABASE_CONNECTIONSTRING": "ConnectionString",
+  "APP_NAME": "SimplifiedSafe",
+  "VERSION": "0.1.0-alpha"
+}
+```
+Just including the file will allow the variables to be picked up automatically and will also be made available through the `IConfiguration` interface.
+
 ### To-Do and template improvements
 
-- Server-side Logging with Serilog
-- Configuration variables
+- Running template tests in CI
+- Configuration variables (client-side)
 - (Optional) database migration setup

@@ -5,7 +5,7 @@ open App
 open Shared
 
 let appTests = testList "App tests" [
-    testCase "update function works" <| fun _ ->
+    testCase "Increment and Decrement work" <| fun _ ->
         // Simplified update that ignore commands/effects
         let update state msg = fst (App.update msg state)
         let initialState = { Counter = Resolved (Ok { value = 0 }) }

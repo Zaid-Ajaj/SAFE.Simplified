@@ -13,4 +13,8 @@
     <PackageReference Include="Expecto" Version="8.13.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\server\Server.fsproj" />
+  </ItemGroup>
+
 </Project>
