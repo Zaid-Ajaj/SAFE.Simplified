@@ -23,6 +23,7 @@
         "copy-webpack-plugin": "^5.1.1",
         "core-js": "^3.3.6",
         "css-loader": "^3.2.0",
+        "dotenv-webpack": "^1.7.0",
         "fable-compiler": "^2.4.11",
         "fable-loader": "^2.1.8",
         "fable-splitter": "^2.1.11",

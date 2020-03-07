@@ -69,3 +69,12 @@ module StaticFile =
         #else
         path
         #endif
+
+[<RequireQualifiedAccess>]
+module Config =
+    open Fable.Core.JsInterop
+    open Fable.Core
+
+    /// Returns the value of a configured variable using its key
+    [<Emit("process.env[$0]")>]
+    let inline variable (key: string) : string = jsNative

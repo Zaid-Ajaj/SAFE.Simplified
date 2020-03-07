@@ -10,6 +10,7 @@ var path = require("path");
 var webpack = require("webpack");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 var CONFIG = {
     // The tags to include the generated JS and CSS will be automatically injected in the HTML template
@@ -50,6 +51,12 @@ var commonPlugins = [
     new HtmlWebpackPlugin({
         filename: 'index.html',
         template: resolve(CONFIG.indexHtmlTemplate)
+    }),
+
+    new Dotenv({
+        path: "./.env",
+        silent: false,
+        systemvars: true
     })
 ];
 

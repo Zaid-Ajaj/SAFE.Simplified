@@ -48,7 +48,7 @@ There are a bunch of built-in targets that you can run:
  - `ClientTests` runs the client unit-tests project by compiling the project first and running via Mocha in node.js
  - `LiveClientTests` runs a standalone web application at `http://localhost:8085` that shows test results from the unit tests and recompiles whenever the tests change.
 
-### Configuring application variables: server
+### Configuring application variables: Server
 
 The server web application picks up the environment variables by default from the host machine and makes them available from an injected `IConfiguration` interface. However, it adds a nice feature on top which allows to add more application-specific local variables by adding a JSON file called `config.json` inside your `server` directory:
 ```json
@@ -60,8 +60,15 @@ The server web application picks up the environment variables by default from th
 ```
 Just including the file will allow the variables to be picked up automatically and will also be made available through the `IConfiguration` interface.
 
-### To-Do and template improvements
+### Configuring application variables: Client
 
-- Running template tests in CI
-- Configuration variables (client-side)
-- (Optional) database migration setup
+Even the client can use build variables. Using the `Config.variable : string -> string` function, you can have access to the environment variables that were used when the application was compiled. Webpack will pick them up automatically by default. To use local variables other than the environment variables, you add a file called `.env` into the `client` directory. This file is a [dotenv]() variables file and has the following format:
+```
+KEY1=VALUE1
+KEY2=VALUE2
+WELCOME_MESSAGE=Welcome to full-stack F#
+```
+Then from your Fable application, you can use the variables like this:
+```fs
+Config.variable "WELCOME_MESSAGE" // returns "Welcome to full-stack F#"
+```
