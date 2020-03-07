@@ -1,0 +1,12 @@
+bin
+obj
+node_modules
+tests-js
+.fable
+.vs
+.ionide
+config.json
+.env
+dist
+output
+bundle
