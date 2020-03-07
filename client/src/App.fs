@@ -73,7 +73,7 @@ let render (state: State) (dispatch: Msg -> unit) =
                 prop.width 250
             ]
 
-            Html.h1 (Config.variable "WELCOME_MESSAGE")
+            Html.h1 "Full-Stack Counter"
             Html.button [
                 prop.onClick (fun _ -> dispatch Increment)
                 prop.text "Increment"
