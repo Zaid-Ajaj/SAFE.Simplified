@@ -17,8 +17,9 @@ let getCounter (logger: ILogger<ICounterApi>) =
         return { value = 10 }
     }
 
-/// Composition root of the `ICounterApi`, resolved requires dependencies from
-/// Asp.Net injected services to construct the API.
+/// Composition root of the `ICounterApi`, resolves required dependencies from
+/// ASP.NET's injected services to construct the API.
+///
 /// Read https://zaid-ajaj.github.io/Fable.Remoting/src/dependency-injection.html to learn more.
 let counterApi =
     reader {
