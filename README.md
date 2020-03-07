@@ -72,3 +72,7 @@ Then from your Fable application, you can use the variables like this:
 ```fs
 Config.variable "WELCOME_MESSAGE" // returns "Welcome to full-stack F#"
 ```
+
+### To-Do template improvements (Help Wanted)
+
+- FAKE build targets for bundling the entire application into ready to deploy app
