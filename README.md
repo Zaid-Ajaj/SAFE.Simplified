@@ -45,3 +45,9 @@ There are a bunch of built-in targets that you can run:
  - `ServerTests` runs the server unit-tests project
  - `ClientTests` runs the client unit-tests project by compiling the project first and running via Mocha in node.js
  - `LiveClientTests` runs a standalone web application at `http://localhost:8085` that shows test results from the unit tests and recompiles whenever the tests change.
+
+### To-Do and template improvements
+
+- Server-side Logging with Serilog
+- Configuration variables
+- (Optional) database migration setup
