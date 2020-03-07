@@ -1,6 +1,6 @@
 # Simplified SAFE Stack
 
-A simplified alternative template to the full-fledged official [SAFE Template](https://github.com/SAFE-Stack/SAFE-template). Lowers the entry barrier by choosing the simplest possible opinionated defaults:
+A lightweight alternative template to the full-fledged official [SAFE Template](https://github.com/SAFE-Stack/SAFE-template). Lowers the entry barrier by choosing the simplest possible opinionated defaults:
  - Nuget for package management
  - [FAKE](https://fake.build/) build script as a console project (see ./build)
  - [Saturn](https://github.com/SaturnFramework/Saturn) as server web framework
