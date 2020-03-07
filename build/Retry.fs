@@ -1,10 +1,10 @@
 ﻿module Retry
 
-let rec retry f n = 
-    if n = 0 then 
+let rec retry n f =
+    if n = 0 then
         ignore()
-    else 
+    else
         try f()
-        with ex -> 
+        with ex ->
             System.Threading.Thread.Sleep(1000)
-            retry f (n - 1)
+            retry (n - 1) f

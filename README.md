@@ -27,7 +27,7 @@ To work with and develop the application, you need to both the server and the cl
 ```
 As shown here below
 
-![img](docs/running-the-application.gif)
+![img](running-the-application.gif)
 
 The server web application starts listening for requests at `http://localhost:5000` where as the client application will be hosted at `http://localhost:8080` during developments. All web requests made from the front-end are automatically proxied to the backend at `http://localhost:5000`. In production, there will no proxy because the front-end application will be served from the backend itself.
 
@@ -47,6 +47,10 @@ There are a bunch of built-in targets that you can run:
  - `ServerTests` runs the server unit-tests project
  - `ClientTests` runs the client unit-tests project by compiling the project first and running via Mocha in node.js
  - `LiveClientTests` runs a standalone web application at `http://localhost:8085` that shows test results from the unit tests and recompiles whenever the tests change.
+ - `Pack` builds and packs both server and client into the `{solutionRoot}/dist` directory after running unit tests of both projects. You can run the result application using `dotnet Server.dll` in the `dist` directory.
+ - `PackNoTests` builds and packs both server and client projects into `{solutionRoot}/dist` without running tests.
+
+> NOTE: while inside your IDE, build targets like `Clean` and restore can fail because the IDE locks caches asset files inside of `obj` directories so soemtimes you have to close the IDE and run the targets from the terminal. Do not run build targets while running the application.
 
 ### Configuring application variables: Server
 
@@ -62,7 +66,7 @@ Just including the file will allow the variables to be picked up automatically a
 
 ### Configuring application variables: Client
 
-Even the client can use build variables. Using the `Config.variable : string -> string` function, you can have access to the environment variables that were used when the application was compiled. Webpack will pick them up automatically by default. To use local variables other than the environment variables, you add a file called `.env` into the `client` directory. This file is a [dotenv]() variables file and has the following format:
+Even the client can use build variables. Using the `Config.variable : string -> string` function, you can have access to the environment variables that were used when the application was compiled. Webpack will pick them up automatically by default. To use local variables other than the environment variables, you add a file called `.env` into the `client` directory. This file is a dotenv variables file and has the following format:
 ```
 KEY1=VALUE1
 KEY2=VALUE2
@@ -72,7 +76,8 @@ Then from your Fable application, you can use the variables like this:
 ```fs
 Config.variable "WELCOME_MESSAGE" // returns "Welcome to full-stack F#"
 ```
+Since this file can contain variables that might contain sensitive data. It is git-ignored by default.
 
-### To-Do template improvements (Help Wanted)
+### Injecting ASP.NET Core Services
 
-- FAKE build targets for bundling the entire application into ready to deploy app
+Since we are using Fable.Remoting in the template, make sure to check out the [Functional Dependency Injection](https://zaid-ajaj.github.io/Fable.Remoting/src/dependency-injection.html) article from the documentation of Fable.Remoting that goes through the required steps of injecting services into the functions of Fable.Remoting APIs

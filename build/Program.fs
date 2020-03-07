@@ -17,9 +17,14 @@ let server = path [ solutionRoot; "server" ]
 let client =  path [ solutionRoot; "client" ]
 let serverTests = path [ solutionRoot; "serverTests" ]
 let clientTests = path [ solutionRoot; "clientTests" ]
+let clientDist = path [ client; "dist" ]
+let dist = path [ solutionRoot; "dist" ]
+let clientOutput = path [ dist; "wwwroot" ]
 
-let clean() =
-    Shell.deleteDirs [
+Target.create "Clean" <| fun _ ->
+    // sometimes files are locked by VS for a bit, retry again until they can be deleted
+    Retry.retry 5 <| fun _ -> Shell.deleteDirs [
+        dist
         path [ server; "bin" ]
         path [ server; "obj" ]
         path [ serverTests; "bin" ]
@@ -32,17 +37,15 @@ let clean() =
         path [ clientTests; ".fable" ]
     ]
 
-Target.create "Clean" <| fun _ ->
-    // sometimes files are locked by VS for a bit, retry again until they can be deleted
-    Retry.retry clean 5
-
 Target.create "RestoreServer" <| fun _ ->
-    let exitCode = Shell.Exec(Tools.dotnet, "restore", server)
-    if exitCode <> 0 then failwith "Could restore packages in the server project"
+    Retry.retry 5 <| fun _ ->
+        let exitCode = Shell.Exec(Tools.dotnet, "restore", server)
+        if exitCode <> 0 then failwith "Could restore packages in the server project"
 
 Target.create "Server" <| fun _ ->
-    let exitCode = Shell.Exec(Tools.dotnet, "build --configuration Release", server)
-    if exitCode <> 0 then failwith "Could not build the server project"
+    Retry.retry 5 <| fun _ ->
+        let exitCode = Shell.Exec(Tools.dotnet, "build --configuration Release", server)
+        if exitCode <> 0 then failwith "Could not build the server project"
 
 Target.create "ServerTests" <| fun _ ->
     let exitCode = Shell.Exec(Tools.dotnet, "run --configuration Release", serverTests)
@@ -64,9 +67,29 @@ Target.create "LiveClientTests" <| fun _ ->
     let exitCode = Shell.Exec(Tools.npm, "run test:live", client)
     if exitCode <> 0 then failwith "Failed to run client tests"
 
+Target.create "Pack" <| fun _ ->
+    match Shell.Exec(Tools.dotnet, sprintf "publish --configuration Release --output %s" dist, server) with
+    | 0 ->
+        Shell.copyDir clientOutput clientDist (fun file -> true)
+    | n ->
+        failwith "Failed to publish server project"
+
+Target.create "PackNoTests" <| fun _ ->
+    match Shell.Exec(Tools.dotnet, sprintf "publish --configuration Release --output %s" dist, server) with
+    | 0 ->
+        match Shell.Exec(Tools.npm, "run build", client) with
+        | 0 ->
+            Shell.copyDir clientOutput clientDist (fun file -> true)
+        | _ ->
+            failwith "Failed to build the client project"
+    | _ ->
+        failwith "Failed to build the server project"
+
 let dependencies = [
     "Clean" ==> "RestoreServer" ==> "Server" ==> "ServerTests"
     "Clean" ==> "RestoreClient" ==> "Client"
+    "ServerTests" ==> "Client" ==> "ClientTests" ==> "Pack"
+    "Clean" ==> "RestoreClient" ==> "PackNoTests"
 ]
 
 [<EntryPoint>]
