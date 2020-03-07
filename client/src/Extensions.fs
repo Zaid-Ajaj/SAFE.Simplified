@@ -42,6 +42,12 @@ type AsyncOperationStatus<'t> =
   | Started
   | Finished of 't
 
+module Log =
+    /// Logs error to the console during development
+    let developmentError (error: exn) =  
+        if isDevelopment 
+        then Browser.Dom.console.log(error)
+
 module Cmd =
     /// Converts an asynchronous operation that returns a message into into a command of that message.
     /// Logs unexpected errors to the console while in development mode.
@@ -50,7 +56,7 @@ module Cmd =
             let delayedDispatch = async {
                 match! Async.Catch operation with
                 | Choice1Of2 msg -> dispatch msg
-                | Choice2Of2 error -> if isDevelopment then Browser.Dom.console.log(error)
+                | Choice2Of2 error -> Log.developmentError error
             }
 
             Async.StartImmediate delayedDispatch
