@@ -59,9 +59,10 @@ let renderCounter (counter: Deferred<Result<Counter, string>>)=
             prop.text errorMsg
         ]
 
-let inline fableLogo() = StaticFile.import "./imgs/fable_logo.png"
+let fableLogo() = StaticFile.import "./imgs/fable_logo.png"
 
 let render (state: State) (dispatch: Msg -> unit) =
+
     Html.div [
         prop.style [
             style.textAlign.center
@@ -69,18 +70,22 @@ let render (state: State) (dispatch: Msg -> unit) =
         ]
 
         prop.children [
+
             Html.img [
                 prop.src(fableLogo())
                 prop.width 250
             ]
 
             Html.h1 "Full-Stack Counter"
+
             Html.button [
+                prop.style [ style.margin 5; style.padding 15 ]
                 prop.onClick (fun _ -> dispatch Increment)
                 prop.text "Increment"
             ]
 
             Html.button [
+                prop.style [ style.margin 5; style.padding 15 ]
                 prop.onClick (fun _ -> dispatch Decrement)
                 prop.text "Decrement"
             ]
