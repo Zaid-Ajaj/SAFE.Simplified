@@ -36,9 +36,9 @@ The server web application starts listening for requests at `http://localhost:50
 ### Available Build Targets
 
 You can easily run the build targets as follows:
- - `./build.sh {Target}` on Linux/Mac
+ - `./build.sh {Target}` on Linux, Mac or simulated bash on Windows
  - `build {Target}` on Windows
- - Hitting F5 where `Build.fsproj` is the startup project
+ - Hitting F5 where `Build.fsproj` is the startup project in Visual Studio/Rider
 
 There are a bunch of built-in targets that you can run:
  - `Server` builds the server in Release mode
@@ -50,7 +50,7 @@ There are a bunch of built-in targets that you can run:
  - `Pack` builds and packs both server and client into the `{solutionRoot}/dist` directory after running unit tests of both projects. You can run the result application using `dotnet Server.dll` in the `dist` directory.
  - `PackNoTests` builds and packs both server and client projects into `{solutionRoot}/dist` without running tests.
 
-> NOTE: while inside your IDE, build targets like `Clean` and restore can fail because the IDE locks caches asset files inside of `obj` directories so soemtimes you have to close the IDE and run the targets from the terminal. Do not run build targets while running the application.
+> NOTE: while inside your IDE, build targets like `Clean` and restore can fail because the IDE locks cached asset files inside of `obj` directories which disallows the target from deleting them. When this happens, you have to close the IDE and run the targets from the terminal. Do not run build targets while running the application.
 
 ### Configuring application variables: Server
 
@@ -81,3 +81,7 @@ Since this file can contain variables that might contain sensitive data. It is g
 ### Injecting ASP.NET Core Services
 
 Since we are using Fable.Remoting in the template, make sure to check out the [Functional Dependency Injection](https://zaid-ajaj.github.io/Fable.Remoting/src/dependency-injection.html) article from the documentation of Fable.Remoting that goes through the required steps of injecting services into the functions of Fable.Remoting APIs
+
+### IIS Support
+
+The bundled application you get by running the `Pack` build target can be used directly as an application inside of IIS. Publishing on IIS requires that you make a separate Application Pool per .NET Core application with selected .NET CLR Version = `No Managed Code`. Then creating a new IIS Application which into the newly created Application Pool and setting the Physical Path of that Application to be the `dist` directory.

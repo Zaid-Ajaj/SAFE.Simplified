@@ -20,8 +20,8 @@ let update (msg: Msg) (state: State) =
             try
                 let! counter = Server.api.getCounter()
                 return LoadCounter (Finished (Ok counter))
-            with ex ->
-                Log.developmentError ex
+            with error ->
+                Log.developmentError error
                 return LoadCounter (Finished (Error "Error while retrieving Counter from server"))
         }
 

@@ -9,37 +9,36 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.Configuration
 
-/// Function that has dependency on ASP.NET Core logger
-let getCounter (logger: ILogger<ICounterApi>) =
+let getCounter (logger: ILogger<IServerApi>) =
     async {
         logger.LogInformation("Executing {Function}", "getCounter")
         do! Async.Sleep 1000
         return { value = 10 }
     }
 
-/// Composition root of the `ICounterApi`, resolves required dependencies from
+/// Composition root of the `IServerApi`, resolves required dependencies from
 /// ASP.NET's injected services to construct the API.
 ///
 /// Read https://zaid-ajaj.github.io/Fable.Remoting/src/dependency-injection.html to learn more.
-let counterApi =
+let serverApi =
     reader {
         // resolve injected services (logger and config in this case)
-        let! logger = resolve<ILogger<ICounterApi>>()
+        let! logger = resolve<ILogger<IServerApi>>()
         let! config = resolve<IConfiguration>()
 
         // use logger
         let getCounter() = getCounter logger
         // construct typed API
-        let counterApi : ICounterApi = {
+        let serverApi : IServerApi = {
             getCounter = getCounter
         }
 
-        return counterApi
+        return serverApi
     }
 
 let webApi =
     Remoting.createApi()
-    |> Remoting.fromReader counterApi
+    |> Remoting.fromReader serverApi
     |> Remoting.withRouteBuilder routerPaths
     |> Remoting.buildHttpHandler
 
