@@ -9,9 +9,9 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.Configuration
 
-let getCounter (logger: ILogger<IServerApi>) =
+let counter (logger: ILogger<IServerApi>) =
     async {
-        logger.LogInformation("Executing {Function}", "getCounter")
+        logger.LogInformation("Executing {Function}", "counter")
         do! Async.Sleep 1000
         return { value = 10 }
     }
@@ -20,21 +20,20 @@ let getCounter (logger: ILogger<IServerApi>) =
 /// ASP.NET's injected services to construct the API.
 ///
 /// Read https://zaid-ajaj.github.io/Fable.Remoting/src/dependency-injection.html to learn more.
-let serverApi =
-    reader {
-        // resolve injected services (logger and config in this case)
-        let! logger = resolve<ILogger<IServerApi>>()
-        let! config = resolve<IConfiguration>()
+let serverApi = reader {
+    // resolve injected services (logger and config in this case)
+    let! logger = resolve<ILogger<IServerApi>>()
+    let! config = resolve<IConfiguration>()
 
-        // use logger
-        let getCounter() = getCounter logger
-        // construct typed API
-        let serverApi : IServerApi = {
-            getCounter = getCounter
-        }
-
-        return serverApi
+    // use logger
+    let counter() = counter logger
+    // construct typed API
+    let serverApi : IServerApi = {
+        counter = counter
     }
+
+    return serverApi
+}
 
 let webApi =
     Remoting.createApi()
