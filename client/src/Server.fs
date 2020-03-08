@@ -4,14 +4,18 @@ open System
 open Fable.Core
 open Fable.Remoting.Client
 
-/// when publishing to IIS, your application most likely runs inside a virtual path (i.e. localhost/SafeApp)
+/// When publishing to IIS, your application most likely runs inside a virtual path (i.e. localhost/SafeApp)
 /// every request made to the server will have to account for this virtual path
 /// so we get the virtual path from the location
 /// `virtualPath` of `http://localhost/SafeApp` -> `/SafeApp/`
-[<Emit("window.location.pathname")>]
-let virtualPath : string = jsNative
+let virtualPath : string =
+    #if MOCHA_TESTS
+    "/"
+    #else
+    JS.eval("window.location.pathname")
+    #endif
 
-/// takes path segments and combines them into a valid path
+/// Takes path segments and combines them into a valid path
 let combine (paths: string list) =
     paths
     |> List.map (fun path -> List.ofArray (path.Split('/')))
@@ -22,7 +26,7 @@ let combine (paths: string list) =
     |> sprintf "/%s"
 
 /// Normalized the path taking into account the virtual path of the server
-let normalize (path: string) = combine [virtualPath; path]
+let normalize (path: string) = combine [ virtualPath; path ]
 
 let normalizeRoutes typeName methodName =
     Shared.routerPaths typeName methodName

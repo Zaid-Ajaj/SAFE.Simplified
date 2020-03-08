@@ -26,11 +26,17 @@ module Deferred =
         | InProgress -> InProgress
         | Resolved value -> Resolved (transform value)
 
-    /// returns whether the `Deferred<'T>` has been resolved or not.
-    let isResolved = function
+    /// Returns whether the `Deferred<'T>` value has been resolved or not.
+    let resolved = function
         | HasNotStartedYet -> false
         | InProgress -> false
         | Resolved _ -> true
+
+    /// Returns whether the `Deferred<'T>` value is in progress or not.
+    let inProgress = function
+        | HasNotStartedYet -> false
+        | InProgress -> true
+        | Resolved _ -> false
 
     /// Verifies that a `Deferred<'T>` value is resolved and the resolved data satisfies a given requirement.
     let exists (predicate: 'T -> bool) = function
@@ -44,8 +50,8 @@ type AsyncOperationStatus<'t> =
 
 module Log =
     /// Logs error to the console during development
-    let developmentError (error: exn) =  
-        if isDevelopment 
+    let developmentError (error: exn) =
+        if isDevelopment
         then Browser.Dom.console.log(error)
 
 module Cmd =
@@ -78,9 +84,17 @@ module StaticFile =
 
 [<RequireQualifiedAccess>]
 module Config =
-    open Fable.Core.JsInterop
+    open System
     open Fable.Core
 
-    /// Returns the value of a configured variable using its key
-    [<Emit("process.env[$0]")>]
-    let inline variable (key: string) : string = jsNative
+    /// Returns the value of a configured variable using its key.
+    /// Retursn empty string when the value does not exist
+    [<Emit("process.env[$0] ? process.env[$0] : ''")>]
+    let variable (key: string) : string = jsNative
+
+    /// Tries to find the value of the configured variable if it is defined or returns a given default value otherwise.
+    let variableOrDefault (key: string) (defaultValue: string) =
+        let foundValue = variable key
+        if String.IsNullOrWhiteSpace foundValue
+        then defaultValue
+        else foundValue

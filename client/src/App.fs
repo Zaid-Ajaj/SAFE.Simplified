@@ -48,11 +48,12 @@ let update (msg: Msg) (state: State) =
 
         { state with Counter = updatedCounter }, Cmd.none
 
-let renderCounter = function
+let renderCounter (counter: Deferred<Result<Counter, string>>)=
+    match counter with
     | HasNotStartedYet -> Html.none
     | InProgress -> Html.h1 "Loading..."
-    | Resolved (Ok (counter: Counter)) -> Html.h1 counter.value
-    | Resolved (Error (errorMsg: string)) ->
+    | Resolved (Ok counter) -> Html.h1 counter.value
+    | Resolved (Error errorMsg) ->
         Html.h1 [
             prop.style [ style.color.crimson ]
             prop.text errorMsg

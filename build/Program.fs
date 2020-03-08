@@ -88,8 +88,10 @@ Target.create "PackNoTests" <| fun _ ->
 let dependencies = [
     "Clean" ==> "RestoreServer" ==> "Server" ==> "ServerTests"
     "Clean" ==> "RestoreClient" ==> "Client"
-    "ServerTests" ==> "Client" ==> "ClientTests" ==> "Pack"
-    "Clean" ==> "RestoreClient" ==> "PackNoTests"
+    "RestoreClient" ==> "ClientTests"
+    "ServerTests" ==> "Pack"
+    "ClientTests" ==> "Pack"
+    "RestoreClient" ==> "PackNoTests"
 ]
 
 [<EntryPoint>]

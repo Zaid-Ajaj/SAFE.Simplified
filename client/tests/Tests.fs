@@ -11,7 +11,7 @@ let appTests = testList "App tests" [
         let initialState = { Counter = Resolved (Ok { value = 0 }) }
         let incomingMsgs =  [ Increment; Increment; Decrement; Increment ]
         let updatedState = List.fold update initialState incomingMsgs
-        Expect.isTrue (Deferred.isResolved updatedState.Counter) "Counter must be resolved"
+        Expect.isTrue (Deferred.resolved updatedState.Counter) "Counter must be resolved"
 
         let counterHasValue n =
             updatedState.Counter
