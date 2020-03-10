@@ -94,7 +94,7 @@ Target.create "InstallAnalyzers" <| fun _ ->
         // example { Name = "NpgsqlFSharpAnalyzer"; Version = "3.2.0" }
     ]
 ```
-To install for example the [NpgsqlFSharpAnalyzer](https://github.com/Zaid-Ajaj/Npgsql.FSharp.Analyzer) package, simple uncomment the entry to make the code look like this:
+To install for example the [NpgsqlFSharpAnalyzer](https://github.com/Zaid-Ajaj/Npgsql.FSharp.Analyzer) package, simply uncomment the entry to make the code look like this:
 ```fs
 Target.create "InstallAnalyzers" <| fun _ ->
     let analyzersPath = path [ solutionRoot; "analyzers" ]
@@ -103,7 +103,7 @@ Target.create "InstallAnalyzers" <| fun _ ->
         { Name = "NpgsqlFSharpAnalyzer"; Version = "3.2.0" }
     ]
 ```
-Then run the build target `InstallAnalyzers` again where it will delete the contents of `analyzers` directory and re-install all configured analyzers from scratch. Restart VS Code to allow Ionide to reload the installed analyzers. If you already have analyzers installed and adding new ones, you might need to do that from the terminal outside of VS Code because Ionide will lock the files in the `analyzers` path.
+Then run the build target `InstallAnalyzers` again where it will delete the contents of `analyzers` directory and re-install all configured analyzers from scratch. Restart VS Code to allow Ionide to reload the installed analyzers. If you already have analyzers installed and adding new ones, you might need to do that from the terminal outside of VS Code because Ionide will lock the files in the `analyzers` path preventing the target from deleting the old analyzers.
 
 ### IIS Support
 
