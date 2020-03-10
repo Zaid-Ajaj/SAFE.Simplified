@@ -9,6 +9,7 @@
     <Compile Include="Tools.fs" />
     <Compile Include="Retry.fs" />
     <Compile Include="Swag.fs" />
+    <Compile Include="Analyzers.fs" />
     <Compile Include="Files.fs" />
     <Compile Include="Setup.fs" />
     <Compile Include="Program.fs" />

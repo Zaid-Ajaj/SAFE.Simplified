@@ -11,8 +11,7 @@ open Fake.Core.TargetOperators
 Setup.context()
 
 let path xs = Path.Combine(Array.ofList xs)
-
-let solutionRoot = Files.findParent __SOURCE_DIRECTORY__ "root.txt";
+let solutionRoot = Files.findParent __SOURCE_DIRECTORY__ "App.sln";
 let server = path [ solutionRoot; "server" ]
 let client =  path [ solutionRoot; "client" ]
 let serverTests = path [ solutionRoot; "serverTests" ]
@@ -85,9 +84,16 @@ Target.create "PackNoTests" <| fun _ ->
     | _ ->
         failwith "Failed to build the server project"
 
+Target.create "InstallAnalyzers" <| fun _ ->
+    let analyzersPath = path [ solutionRoot; "analyzers" ]
+    Analyzers.install analyzersPath [
+        // Add analyzer entries to download
+        // example { Name = "NpgsqlFSharpAnalyzer"; Version = "3.2.0" }
+    ]
+
 let dependencies = [
-    "Clean" ==> "RestoreServer" ==> "Server" ==> "ServerTests"
-    "Clean" ==> "RestoreClient" ==> "Client"
+    "RestoreServer" ==> "Server" ==> "ServerTests"
+    "RestoreClient" ==> "Client"
     "RestoreClient" ==> "ClientTests"
     "ServerTests" ==> "Pack"
     "ClientTests" ==> "Pack"
@@ -96,12 +102,12 @@ let dependencies = [
 
 [<EntryPoint>]
 let main (args: string[]) =
+    Console.WriteLine(Swag.logo)
     try
         match args with
         | [| "RunDefaultOr" |] -> Target.runOrDefault "Default"
         | [| "RunDefaultOr"; target |] -> Target.runOrDefault target
         | manyArguments ->
-            Console.WriteLine(Swag.logo)
             Console.Write("[Interactive Mode] Run build target: ")
             let target = Console.ReadLine()
             Target.runOrDefault target

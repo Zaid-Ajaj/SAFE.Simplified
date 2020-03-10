@@ -44,6 +44,13 @@ module Deferred =
         | InProgress -> false
         | Resolved value -> predicate value
 
+    /// Like `map` but instead of transforming just the value into another type in the `Resolved` case, it will transform the value into potentially a different case of the the `Deferred<'T>` type.
+    let bind (transform: 'T -> Deferred<'U>) (deferred: Deferred<'T>) : Deferred<'U> =
+        match deferred with
+        | HasNotStartedYet -> HasNotStartedYet
+        | InProgress -> InProgress
+        | Resolved value -> transform value
+
 type AsyncOperationStatus<'t> =
   | Started
   | Finished of 't

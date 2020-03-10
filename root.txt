@@ -1,1 +1,0 @@
-Just a file to identify the root directory of the solution.

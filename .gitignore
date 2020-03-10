@@ -11,3 +11,4 @@ dist
 output
 bundle
 Server.fsproj.user
+analyzers

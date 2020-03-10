@@ -27,7 +27,7 @@ To work with and develop the application, you need to both the server and the cl
 ```
 As shown here below
 
-![img](running-the-application.gif)
+![img](docs/running-the-application.gif)
 
 The server web application starts listening for requests at `http://localhost:5000` where as the client application will be hosted at `http://localhost:8080` during developments. All web requests made from the front-end are automatically proxied to the backend at `http://localhost:5000`. In production, there will no proxy because the front-end application will be served from the backend itself.
 
@@ -49,6 +49,7 @@ There are a bunch of built-in targets that you can run:
  - `LiveClientTests` runs a standalone web application at `http://localhost:8085` that shows test results from the unit tests and recompiles whenever the tests change.
  - `Pack` builds and packs both server and client into the `{solutionRoot}/dist` directory after running unit tests of both projects. You can run the result application using `dotnet Server.dll` in the `dist` directory.
  - `PackNoTests` builds and packs both server and client projects into `{solutionRoot}/dist` without running tests.
+ - `InstallAnalyzers` installs [F# code analyzers](https://github.com/ionide/FSharp.Analyzers.SDK). You can configure which analyzers to install from the build target itself.
 
 > NOTE: while inside your IDE, build targets like `Clean` and restore can fail because the IDE locks cached asset files inside of `obj` directories which disallows the target from deleting them. When this happens, you have to close the IDE and run the targets from the terminal. Do not run build targets while running the application.
 
@@ -81,6 +82,28 @@ Since this file can contain variables that might contain sensitive data. It is g
 ### Injecting ASP.NET Core Services
 
 Since we are using Fable.Remoting in the template, make sure to check out the [Functional Dependency Injection](https://zaid-ajaj.github.io/Fable.Remoting/src/dependency-injection.html) article from the documentation of Fable.Remoting that goes through the required steps of injecting services into the functions of Fable.Remoting APIs
+
+### F# Analyzers support
+
+When developing the application using Ionide and VS Code, you can make use of F# analyzers that are built to detect certain types of specific pieces of code. By default the template doesn't include any analyzers but it is easy to add and install them using the `InstallAnalyzers` build target defined in `build/Program.fs` as follows:
+```fs
+Target.create "InstallAnalyzers" <| fun _ ->
+    let analyzersPath = path [ solutionRoot; "analyzers" ]
+    Analyzers.install analyzersPath [
+        // Add analyzer entries to download
+        // example { Name = "NpgsqlFSharpAnalyzer"; Version = "3.2.0" }
+    ]
+```
+To install for example the [NpgsqlFSharpAnalyzer](https://github.com/Zaid-Ajaj/Npgsql.FSharp.Analyzer) package, simple uncomment the entry to make the code look like this:
+```fs
+Target.create "InstallAnalyzers" <| fun _ ->
+    let analyzersPath = path [ solutionRoot; "analyzers" ]
+    Analyzers.install analyzersPath [
+        // Add analyzer entries to download
+        { Name = "NpgsqlFSharpAnalyzer"; Version = "3.2.0" }
+    ]
+```
+Then run the build target `InstallAnalyzers` again where it will delete the contents of `analyzers` directory and re-install all configured analyzers from scratch. Restart VS Code to allow Ionide to reload the installed analyzers. If you already have analyzers installed and adding new ones, you might need to do that from the terminal outside of VS Code because Ionide will lock the files in the `analyzers` path.
 
 ### IIS Support
 
