@@ -40,7 +40,7 @@ The server web application starts listening for requests at `http://localhost:50
 You can easily run the build targets as follows:
  - `./build.sh {Target}` on Linux, Mac or simulated bash on Windows
  - `build {Target}` on Windows
- - Hitting F5 where `Build.fsproj` is the startup project in Visual Studio/Rider
+ - Hitting F5 where `Build.fsproj` is the startup project in Visual Studio or Rider
 
 There are a bunch of built-in targets that you can run:
  - `Server` builds the server in Release mode
@@ -52,8 +52,6 @@ There are a bunch of built-in targets that you can run:
  - `Pack` builds and packs both server and client into the `{solutionRoot}/dist` directory after running unit tests of both projects. You can run the result application using `dotnet Server.dll` in the `dist` directory.
  - `PackNoTests` builds and packs both server and client projects into `{solutionRoot}/dist` without running tests.
  - `InstallAnalyzers` installs [F# code analyzers](https://github.com/ionide/FSharp.Analyzers.SDK). You can configure which analyzers to install from the build target itself.
-
-> NOTE: while inside your IDE, build targets like `Clean` and restore can fail because the IDE locks cached asset files inside of `obj` directories which disallows the target from deleting them. When this happens, you have to close the IDE and run the targets from the terminal. Do not run build targets while running the application.
 
 ### Configuring application variables: Server
 

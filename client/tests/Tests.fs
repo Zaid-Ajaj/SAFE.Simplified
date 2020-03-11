@@ -2,7 +2,6 @@ module Tests
 
 open Fable.Mocha
 open App
-open Shared
 
 let appTests = testList "App tests" [
     testCase "Increment and Decrement work" <| fun _ ->
