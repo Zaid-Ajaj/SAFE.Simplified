@@ -9,6 +9,8 @@ A lightweight alternative template to the full-fledged official [SAFE Template](
  - [Expecto](https://github.com/haf/expecto) for server unit-tests project
  - [Fable.Mocha](https://github.com/Zaid-Ajaj/Fable.Mocha) for client unit-tests project (runs in Node.js when on CI servers or live during development)
  - [Serilog](https://serilog.net) for logging server-side stuff
+ - Scalable architecture by modelling logical server-side components following Fable.Remoting protocols
+ - F# Analyzers support
  - Simple application variable configuration (see below sections)
 
 ### Using This Template

@@ -18,7 +18,7 @@ let update (msg: Msg) (state: State) =
     | LoadCounter Started ->
         let loadCounter = async {
             try
-                let! counter = Server.api.counter()
+                let! counter = Server.api.Counter()
                 return LoadCounter (Finished (Ok counter))
             with error ->
                 Log.developmentError error
