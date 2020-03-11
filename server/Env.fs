@@ -29,7 +29,7 @@ let rec findParent (directory: string) (fileToFind: string) =
     then path
     else findParent (DirectoryInfo(path).Parent.FullName) fileToFind
 
-let solutionRoot() = findParent __SOURCE_DIRECTORY__ "root.txt"
+let solutionRoot() = findParent __SOURCE_DIRECTORY__ "App.sln"
 
 /// Returns enviroment variables as a dictionary
 let environmentVars() =
