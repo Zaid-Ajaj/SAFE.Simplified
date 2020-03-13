@@ -13,9 +13,16 @@ A lightweight alternative template to the full-fledged official [SAFE Template](
  - F# Analyzers support
  - Simple application variable configuration (see below sections)
 
-### Using This Template
+### Getting Started
 
-Clone this repository or use it as template via Github UI to get started. Currently there are no plans to publish a separate dotnet template for it.
+To start using this template, simply clone this repository or use it as template via Github UI and you are good to go. 
+
+You need to have installed: 
+  - [.NET Core SDK 3.1+](https://dotnet.microsoft.com/download)
+  - [Node.js 12.0+](https://nodejs.org/en)
+
+You can use the editor of your choice to work with the repository. [VS Code](https://code.visualstudio.com) is recommended with the [Ionide](http://ionide.io) extension for F# development but the template will also work just fine with [Visual Studio](https://visualstudio.microsoft.com/vs/), [Rider](https://www.jetbrains.com/rider) or [Visual Studio for Mac](https://visualstudio.microsoft.com/vs/mac) if you prefer to work with any of those.
+
 
 ### Running The Application
 
