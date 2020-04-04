@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Fable.MochaPuppeteerRunner" Version="1.1.0" />
     <PackageReference Include="Fake.Core.Environment" Version="5.19.1" />
     <PackageReference Include="Fake.Core.Target" Version="5.19.1" />
     <PackageReference Include="Nuke.Common" Version="0.22.0" />

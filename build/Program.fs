@@ -7,6 +7,7 @@ open Fake.IO
 open Fake.Core
 open Fake.Core.TargetOperators
 
+
 // Initialize FAKE context
 Setup.context()
 
@@ -61,6 +62,15 @@ Target.create "Client" <| fun _ ->
 Target.create "ClientTests" <| fun _ ->
     let exitCode = Shell.Exec(Tools.npm, "test", client)
     if exitCode <> 0 then failwith "Client tests did not pass"
+
+Target.create "HeadlessBrowserTests" <| fun _ ->
+    Shell.cleanDir clientDist
+    let exitCode = Shell.Exec(Tools.npm, "run build:test", client)
+    if exitCode <> 0 then
+        failwith "Failed to build tests project"
+    else
+        let testResults = Async.RunSynchronously(Puppeteer.runTests clientDist)
+        if testResults <> 0 then failwith "Some tests failed"
 
 Target.create "LiveClientTests" <| fun _ ->
     let exitCode = Shell.Exec(Tools.npm, "run test:live", client)

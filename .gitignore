@@ -12,3 +12,5 @@ output
 bundle
 Server.fsproj.user
 analyzers
+deploy
+.local-chromium

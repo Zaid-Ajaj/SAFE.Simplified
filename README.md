@@ -56,6 +56,7 @@ There are a bunch of built-in targets that you can run:
  - `ServerTests` runs the server unit-tests project
  - `ClientTests` runs the client unit-tests project by compiling the project first and running via Mocha in node.js
  - `LiveClientTests` runs a standalone web application at `http://localhost:8085` that shows test results from the unit tests and recompiles whenever the tests change.
+ - `HeadlessBrowserTests` builds the test project as web application and spins up a headless browser to run the tests and report results
  - `Pack` builds and packs both server and client into the `{solutionRoot}/dist` directory after running unit tests of both projects. You can run the result application using `dotnet Server.dll` in the `dist` directory.
  - `PackNoTests` builds and packs both server and client projects into `{solutionRoot}/dist` without running tests.
  - `InstallAnalyzers` installs [F# code analyzers](https://github.com/ionide/FSharp.Analyzers.SDK). You can configure which analyzers to install from the build target itself.

@@ -10,6 +10,7 @@ var path = require("path");
 var webpack = require("webpack");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const Dotenv = require('dotenv-webpack');
 
 var CONFIG = {
@@ -17,7 +18,7 @@ var CONFIG = {
     // See https://github.com/jantimon/html-webpack-plugin
     indexHtmlTemplate: "./tests/index.html",
     fsharpEntry: "./tests/Client.Tests.fsproj",
-    outputDir: "./deploy",
+    outputDir: "./dist",
     assetsDir: "./public",
     devServerPort: 8085,
     // When using webpack-dev-server, you may need to redirect some calls
@@ -131,7 +132,24 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: CONFIG.babel
-                },
+                }
+            },
+            {
+                test: /\.(sass|scss|css)$/,
+                use: [
+                    isProduction
+                        ? MiniCssExtractPlugin.loader
+                        : 'style-loader',
+                    'css-loader',
+                    {
+                        loader: 'sass-loader',
+                        options: { implementation: require("sass") }
+                    }
+                ],
+            },
+            {
+                test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?.*)?$/,
+                use: ["file-loader"]
             }
         ]
     }
