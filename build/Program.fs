@@ -79,6 +79,8 @@ Target.create "LiveClientTests" <| fun _ ->
 Target.create "Pack" <| fun _ ->
     match Shell.Exec(Tools.dotnet, sprintf "publish --configuration Release --output %s" dist, server) with
     | 0 ->
+        let exitCode = Shell.Exec(Tools.npm, "run build", client)
+        if exitCode <> 0 then failwith "Failed to build client"
         Shell.copyDir clientOutput clientDist (fun file -> true)
     | n ->
         failwith "Failed to publish server project"
