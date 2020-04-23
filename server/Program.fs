@@ -14,7 +14,7 @@ let webApi =
     |> Remoting.withRouteBuilder routerPaths
     |> Remoting.buildHttpHandler
 
-let webApp = choose [ webApi; GET >=> text "Hello to full STACK F#" ]
+let webApp = choose [ webApi; GET >=> text "Welcome to full stack F#" ]
 
 let serviceConfig (services: IServiceCollection) =
     services
