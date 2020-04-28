@@ -16,8 +16,8 @@
         <PackageReference Include="Fable.Elmish.HMR" Version="4.0.1" />
         <PackageReference Include="Fable.Elmish.React" Version="3.0.1" />
         <PackageReference Include="Fable.Remoting.Client" Version="5.10.2" />
-        <PackageReference Include="Feliz" Version="0.68.10" />
-        <PackageReference Include="Feliz.Router" Version="1.8.1" />
+        <PackageReference Include="Feliz" Version="0.80.0" />
+        <PackageReference Include="Feliz.Router" Version="2.0.1" />
         <PackageReference Include="Zanaptak.TypedCssClasses" Version="0.2.0" />
     </ItemGroup>
     <ItemGroup>

@@ -5,7 +5,7 @@ open App
 
 let appTests = testList "App tests" [
     testCase "Increment and Decrement work" <| fun _ ->
-        // Simplified update that ignore commands/effects
+        // Simplified update that ignores commands/effects
         let update state msg = fst (App.update msg state)
         let initialState : App.State = { Counter = Resolved (Ok { value = 0 }) }
         let incomingMsgs =  [ Increment; Increment; Decrement; Increment ]
