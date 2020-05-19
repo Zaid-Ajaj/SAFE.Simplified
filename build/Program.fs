@@ -100,7 +100,7 @@ Target.create "InstallAnalyzers" <| fun _ ->
     let analyzersPath = path [ solutionRoot; "analyzers" ]
     Analyzers.install analyzersPath [
         // Add analyzer entries to download
-        // example { Name = "NpgsqlFSharpAnalyzer"; Version = "3.2.0" }
+        // { Name = "NpgsqlFSharpAnalyzer"; Version = "3.5.0" }
     ]
 
 let dependencies = [

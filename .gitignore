@@ -14,3 +14,4 @@ Server.fsproj.user
 analyzers
 deploy
 .local-chromium
+NPGSQL_FSHARP
