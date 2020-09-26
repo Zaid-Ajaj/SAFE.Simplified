@@ -89,7 +89,11 @@ module.exports = {
         },
     },
     plugins: commonPlugins.concat([
-        new CopyWebpackPlugin([{ from: resolve(CONFIG.assetsDir) }]),
+        new CopyWebpackPlugin({
+            patterns: [
+                { from: resolve(CONFIG.assetsDir) }
+            ]
+        }),
     ]),
 
     resolve: {

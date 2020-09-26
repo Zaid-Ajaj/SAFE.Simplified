@@ -15,12 +15,15 @@
         <PackageReference Include="Fable.Elmish.Debugger" Version="3.0.3" />
         <PackageReference Include="Fable.Elmish.HMR" Version="4.0.1" />
         <PackageReference Include="Fable.Elmish.React" Version="3.0.1" />
-        <PackageReference Include="Fable.Remoting.Client" Version="5.12.0" />
-        <PackageReference Include="Feliz" Version="1.5.0" />
-        <PackageReference Include="Feliz.Router" Version="2.1.0" />
+        <PackageReference Include="Fable.Remoting.Client" Version="6.9.0" />
+        <PackageReference Include="Feliz" Version="1.14.0" />
+        <PackageReference Include="Feliz.Router" Version="3.2.0" />
         <PackageReference Include="Zanaptak.TypedCssClasses" Version="0.2.0" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\shared\Shared.fsproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Update="FSharp.Core" Version="4.7.2" />
     </ItemGroup>
 </Project>
