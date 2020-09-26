@@ -7,10 +7,11 @@ open Server
 open Fable.Remoting.Server
 open Fable.Remoting.Giraffe
 open Microsoft.Extensions.DependencyInjection
+open Microsoft.AspNetCore.Http
 
 let webApi =
     Remoting.createApi()
-    |> Remoting.fromContext (fun ctx -> ctx.GetService<ServerApi>().Build())
+    |> Remoting.fromContext (fun (ctx: HttpContext) -> ctx.GetService<ServerApi>().Build())
     |> Remoting.withRouteBuilder routerPaths
     |> Remoting.buildHttpHandler
 
@@ -27,7 +28,7 @@ let application = application {
     use_gzip
     use_iis
     service_config serviceConfig
-    host_config Env.configureHost
+    webhost_config Env.configureHost
 }
 
 run application
