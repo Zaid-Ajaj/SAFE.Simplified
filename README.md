@@ -28,7 +28,7 @@ You can use the editor of your choice to work with the repository. [VS Code](htt
 
 To work with and develop the application, you need to both the server and the client project running at the same time. The server application is in the `server` directory and the client is in `client` directory. To run them both, simply open two shell tabs, each for either applications then:
 ```bash
-  Shell tab c:\project\simplified-safe   Shell tab c:\project\simplified-safe
+  Shell tab c:\project\SAFE.Simplified   Shell tab c:\project\SAFE.Simplified
  -------------------------------------- --------------------------------------
   > cd server                            > cd client
   > dotnet restore                       > dotnet tool restore
