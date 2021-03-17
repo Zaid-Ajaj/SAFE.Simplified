@@ -31,8 +31,9 @@ To work with and develop the application, you need to both the server and the cl
   Shell tab c:\project\simplified-safe   Shell tab c:\project\simplified-safe
  -------------------------------------- --------------------------------------
   > cd server                            > cd client
-  > dotnet restore                       > npm install
-  > dotnet run                           > npm start
+  > dotnet restore                       > dotnet tool restore
+  > dotnet run                           > npm install
+                                         > npm start
 ```
 As shown here below
 

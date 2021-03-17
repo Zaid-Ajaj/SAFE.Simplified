@@ -17,7 +17,7 @@ var CONFIG = {
     // The tags to include the generated JS and CSS will be automatically injected in the HTML template
     // See https://github.com/jantimon/html-webpack-plugin
     indexHtmlTemplate: "./src/index.html",
-    fsharpEntry: "./src/Client.fsproj",
+    fsharpEntry: "./fs.js.build/Main.js",
     cssEntry: "./src/styles/main.scss",
     outputDir: "./dist",
     assetsDir: "./public",
@@ -49,7 +49,7 @@ var CONFIG = {
 }
 
 // If we're running the webpack-dev-server, assume we're in development mode
-var isProduction = !process.argv.find(v => v.indexOf('webpack-dev-server') !== -1);
+var isProduction = process.argv.indexOf('serve') === -1;
 console.log("Bundling for " + (isProduction ? "production" : "development") + "...");
 
 // The HtmlWebpackPlugin allows us to use a template for the index.html page
@@ -70,17 +70,14 @@ var commonPlugins = [
 module.exports = {
     // In development, bundle styles together with the code so they can also
     // trigger hot reloads. In production, put them in a separate CSS file.
-    entry: isProduction ? {
+    entry: {
         app: [resolve(CONFIG.fsharpEntry), resolve(CONFIG.cssEntry)]
-    } : {
-            app: [resolve(CONFIG.fsharpEntry)],
-            style: [resolve(CONFIG.cssEntry)]
-        },
+    },
     // Add a hash to the output file name in production
     // to prevent browser caching if code changes
     output: {
         path: resolve(CONFIG.outputDir),
-        filename: isProduction ? '[name].[hash].js' : '[name].js'
+        filename: '[name].[contenthash].js'
     },
     mode: isProduction ? "production" : "development",
     devtool: isProduction ? "source-map" : "eval-source-map",
@@ -93,8 +90,13 @@ module.exports = {
                     test: /node_modules/,
                     name: "vendors",
                     chunks: "all"
-                }
-            }
+                },
+                fable: {
+                    test: /\.fable/,
+                    name: "fable",
+                    chunks: "all"
+                },
+            },
         },
     },
     // Besides the HtmlPlugin, we use the following plugins:
@@ -142,14 +144,12 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.fs(x|proj)?$/,
-                use: {
-                    loader: "fable-loader",
-                    options: {
-                        babel: CONFIG.babel
-                    }
-                }
+                test: /\.js$/,
+                enforce: "pre",
+                exclude: /node_modules/,
+                use: ["source-map-loader"],
             },
+/* babel is not necessary            
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
@@ -158,6 +158,7 @@ module.exports = {
                     options: CONFIG.babel
                 },
             },
+*/            
             {
                 test: /\.(sass|scss|css)$/,
                 use: [
